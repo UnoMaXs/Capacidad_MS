@@ -4,6 +4,7 @@ import com.capacidad_ms.domain.api.ICapacityServicePort;
 import com.capacidad_ms.domain.model.Capacity;
 import com.capacidad_ms.infrastructure.entrypoints.dto.CapacityDTO;
 import com.capacidad_ms.infrastructure.entrypoints.mapper.ICapacityInfraMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;

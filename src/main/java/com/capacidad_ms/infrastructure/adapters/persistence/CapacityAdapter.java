@@ -7,6 +7,8 @@ import com.capacidad_ms.infrastructure.adapters.repository.ICapacityRepository;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @AllArgsConstructor
 public class CapacityAdapter implements ICapacityPersistencePort {
 
@@ -20,6 +22,11 @@ public class CapacityAdapter implements ICapacityPersistencePort {
                 map(capacityMapper ::toCapacityEntity).
                 flatMap(capacityRepository::save).
                 map(capacityMapper::toCapacity);
+    }
+
+    @Override
+    public Mono<Boolean> existsByTechnologyIds(List<Long> technologyIds) {
+        return capacityRepository.existsByExactTechnologyIds(technologyIds);
     }
 
 }
