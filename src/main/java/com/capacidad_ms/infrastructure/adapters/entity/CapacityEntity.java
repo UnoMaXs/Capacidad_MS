@@ -1,8 +1,10 @@
 package com.capacidad_ms.infrastructure.adapters.entity;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -11,7 +13,9 @@ import java.util.List;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "capacities")
 public class CapacityEntity {
 

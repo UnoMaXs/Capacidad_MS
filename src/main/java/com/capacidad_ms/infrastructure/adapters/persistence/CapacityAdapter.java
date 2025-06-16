@@ -29,4 +29,19 @@ public class CapacityAdapter implements ICapacityPersistencePort {
         return capacityRepository.existsByExactTechnologyIds(technologyIds);
     }
 
+    @Override
+    public Mono<List<Capacity>> findAll(int page, int size, String sortBy, String direction) {
+        return capacityRepository.findAllPageAndSort(page, size, sortBy, direction)
+                .map(capacityMapper::toCapacity)
+                .collectList();
+    }
+
+    @Override
+    public Mono<List<Capacity>> getCapacitiesByIds(List<Long> capacityIds) {
+        return Mono.just(capacityIds)
+                .flatMapMany(capacityRepository::findAllById)
+                .map(capacityMapper::toCapacity)
+                .collectList();
+    }
+
 }

@@ -8,4 +8,5 @@ import org.mapstruct.Mapper;
 public interface ICapacityInfraMapper {
 
     Capacity toCapacity(CapacityDTO capacityDTO);
+
 }
