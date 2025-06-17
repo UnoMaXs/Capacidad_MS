@@ -78,6 +78,29 @@ public class CapacityHandler {
                 .flatMap(summaries -> ServerResponse.ok().bodyValue(summaries));
     }
 
+    public Mono<ServerResponse> getUsedTechnologyIds(ServerRequest request) {
+        List<Long> excludedIds = Arrays.stream(request.queryParam("excludeIds")
+                        .orElse("")
+                        .split(","))
+                .filter(id -> !id.isBlank())
+                .map(Long::valueOf)
+                .toList();
 
+        return capacityServicePort.getTechnologyIdsUsedByOtherCapacities(excludedIds)
+                .collectList()
+                .flatMap(ids -> ServerResponse.ok().bodyValue(ids));
+    }
+
+    public Mono<ServerResponse> deleteCapacitiesByIds(ServerRequest request) {
+        List<Long> ids = Arrays.stream(request.queryParam("ids")
+                        .orElse("")
+                        .split(","))
+                .filter(id -> !id.isBlank())
+                .map(Long::valueOf)
+                .toList();
+
+        return capacityServicePort.deleteCapacitiesByIds(ids)
+                .then(ServerResponse.noContent().build());
+    }
 
 }

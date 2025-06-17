@@ -5,6 +5,7 @@ import com.capacidad_ms.domain.spi.ICapacityPersistencePort;
 import com.capacidad_ms.infrastructure.adapters.mapper.ICapacityMapper;
 import com.capacidad_ms.infrastructure.adapters.repository.ICapacityRepository;
 import lombok.AllArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -42,6 +43,21 @@ public class CapacityAdapter implements ICapacityPersistencePort {
                 .flatMapMany(capacityRepository::findAllById)
                 .map(capacityMapper::toCapacity)
                 .collectList();
+    }
+
+    @Override
+    public Flux<Long> getTechnologyIdsUsedByOtherCapacities(List<Long> excludedIds) {
+        return capacityRepository.findAll()
+                .filter(cap -> !excludedIds.contains(cap.getId()))
+                .flatMap(cap -> Flux.fromIterable(cap.getTechnologyIds()))
+                .distinct();
+    }
+
+    @Override
+    public Mono<Void> deleteCapacitiesByIds(List<Long> capacityIds) {
+        return Flux.fromIterable(capacityIds)
+                .flatMap(capacityRepository::deleteById)
+                .then();
     }
 
 }

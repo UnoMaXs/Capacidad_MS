@@ -42,5 +42,4 @@ public class TechnologyWebClient {
                 .bodyToFlux(TechnologySummaryDTO.class);
     }
 
-
 }

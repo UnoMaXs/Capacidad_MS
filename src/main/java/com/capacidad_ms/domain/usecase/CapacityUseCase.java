@@ -6,6 +6,7 @@ import com.capacidad_ms.domain.spi.ICapacityPersistencePort;
 import com.capacidad_ms.infrastructure.adapters.client.TechnologyWebClient;
 import com.capacidad_ms.infrastructure.entrypoints.dto.CapacityResponseDTO;
 import com.capacidad_ms.infrastructure.entrypoints.dto.TechnologySummaryDTO;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Objects;
@@ -97,6 +98,16 @@ public class CapacityUseCase implements ICapacityServicePort {
                                 );
                             }).toList());
                 });
+    }
+
+    @Override
+    public Flux<Long> getTechnologyIdsUsedByOtherCapacities(List<Long> excludedCapacityIds) {
+        return capacityPersistencePort.getTechnologyIdsUsedByOtherCapacities(excludedCapacityIds);
+    }
+
+    @Override
+    public Mono<Void> deleteCapacitiesByIds(List<Long> capacityIds) {
+        return capacityPersistencePort.deleteCapacitiesByIds(capacityIds);
     }
 
 }
